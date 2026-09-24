@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a reproducible problem in TukTuk.io
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report vulnerabilities, credentials, admission tickets, or private room data here. Follow SECURITY.md instead.
+  - type: input
+    id: url
+    attributes:
+      label: Live URL
+      description: The page or room URL where the problem occurs, if safe to share.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Client rendering or controls
+        - Multiplayer/WebSocket
+        - Lobby/waitroom
+        - Pickup/drop/fare
+        - Deployment/configuration
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Smallest reliable sequence to reproduce the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include exact errors, but redact tokens and personal data.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, OS, Node version, and whether you used Worker or Node fallback.
+    validations:
+      required: false

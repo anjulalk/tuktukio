@@ -2,6 +2,25 @@
   "name": "tuktuk.io",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "description": "A lightweight realtime multiplayer tuk-tuk game on Cloudflare Workers and Durable Objects.",
+  "homepage": "https://tuktukio.anjula.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anjulalk/tuktukio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anjulalk/tuktukio/issues"
+  },
+  "keywords": [
+    "multiplayer",
+    "game",
+    "cloudflare-workers",
+    "durable-objects",
+    "websockets",
+    "threejs",
+    "typescript"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -12,6 +31,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/room.test.ts",
+    "check": "npm run typecheck && npm run worker:typecheck && npm test && npm run worker:check",
     "server:dev": "tsx watch server/src/index.ts",
     "server:start": "tsx server/src/index.ts",
     "worker:typecheck": "tsc -p worker/tsconfig.json --noEmit",

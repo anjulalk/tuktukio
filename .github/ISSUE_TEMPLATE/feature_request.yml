@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a gameplay, platform, or developer-experience improvement
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What user problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and risks
+      description: Include protocol, persistence, performance, security, or migration impact.
+    validations:
+      required: false

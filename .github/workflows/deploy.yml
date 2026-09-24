@@ -14,18 +14,22 @@ concurrency:
 
 jobs:
   deploy:
+    name: Deploy production
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    timeout-minutes: 15
+    environment: production
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm test
-      - run: npm run worker:check
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify build and protocol
+        run: npm run check
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:

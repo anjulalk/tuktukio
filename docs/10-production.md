@@ -4,18 +4,20 @@
 
 ```bash
 npm ci
-npx wrangler login
-npm test
-npm run worker:check
-npm run worker:deploy
+npm run check
+npx wrangler deploy
 ```
+
+For local development, use `npx wrangler login` first. The repository's `main` branch deploys through `.github/workflows/deploy.yml` after CI succeeds.
+
+GitHub Actions requires the repository secrets `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`. Set them with GitHub's secret UI or `gh secret set`; never place token values in source, logs, issues, or chat.
 
 The deploy creates/updates SQLite-backed Durable Objects:
 
 - `TukTukRoom` — one authoritative WebSocket room per room id
 - `TukTukLobby` — eight sharded allocators (`lobby-n0`…`lobby-n7` / `lobby-q0`…`lobby-q7`) for named-room allocation, Quick Play, reservations, and wait queues
 
-Attach `tuktuk.io` (or a subdomain) as a Cloudflare **Custom Domain** after the first deploy. The Worker serves the Vite build and the API/WebSocket routes from the same origin. If the client is hosted separately, set `ALLOWED_ORIGINS` in `wrangler.jsonc` to a comma-separated list of exact origins.
+The production custom domain is `tuktukio.anjula.dev`. The Worker serves the Vite build and the API/WebSocket routes from the same origin. If the client is hosted separately, set `ALLOWED_ORIGINS` in `wrangler.jsonc` to a comma-separated list of exact origins.
 
 ## Health checks
 
