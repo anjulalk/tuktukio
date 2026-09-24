@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>TukTuk.io — Drive. Deliver. Dominate.</title>
+    <style>
+      :root {
+        --ink: #eff8f5;
+        --muted: #9bb8ba;
+        --glass: rgba(8, 24, 34, .78);
+        --glass-soft: rgba(12, 35, 45, .62);
+        --line: rgba(173, 226, 218, .18);
+        --mint: #63e0bb;
+        --sun: #ffc857;
+        --coral: #ff766d;
+        --navy: #071923;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; overflow: hidden; background: var(--navy); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      body { text-rendering: optimizeLegibility; }
+      #app { position: fixed; inset: 0; }
+      #app canvas { display: block; width: 100%; height: 100%; }
+      #vignette { position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at center, transparent 38%, rgba(3, 13, 20, .78) 100%); mix-blend-mode: multiply; }
+      #hud { position: fixed; z-index: 5; top: 16px; left: 16px; min-width: 300px; padding: 12px 14px 13px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(135deg, rgba(8, 28, 38, .88), rgba(11, 42, 50, .68)); box-shadow: 0 12px 30px rgba(3, 14, 21, .24), inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(12px); pointer-events: none; }
+      #hud::before { content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 2px; background: linear-gradient(90deg, var(--sun), var(--coral)); border-radius: 0 0 4px 4px; }
+      #hudHeader { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 10px; }
+      #hudBrand { color: var(--sun); font-size: 11px; font-weight: 900; letter-spacing: .18em; }
+      #roomBadge { max-width: 124px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 4px 8px; border: 1px solid rgba(99,224,187,.28); border-radius: 999px; color: var(--mint); background: rgba(99,224,187,.08); font-size: 10px; font-weight: 800; letter-spacing: .08em; }
+      #hudStats { display: flex; align-items: stretch; gap: 16px; }
+      .hudStat { display: flex; flex-direction: column; gap: 2px; min-width: 54px; }
+      .hudStat + .hudStat { padding-left: 16px; border-left: 1px solid var(--line); }
+      .hudStat span { color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+      .hudStat strong { color: var(--ink); font-size: 16px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+      #cashValue { color: var(--sun); }
+      #heartsValue { color: var(--coral); letter-spacing: 1px; }
+      #hint { position: fixed; z-index: 5; bottom: 18px; left: 50%; max-width: calc(100vw - 390px); transform: translateX(-50%); padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--glass); box-shadow: 0 8px 22px rgba(3, 14, 21, .2); backdrop-filter: blur(10px); font-size: 12px; letter-spacing: .01em; pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      #touchControls { position: fixed; z-index: 6; left: 18px; bottom: 174px; display: none; grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(2, 46px); gap: 6px; touch-action: none; }
+      #touchControls button { border: 1px solid rgba(173,226,218,.3); border-radius: 13px; color: var(--ink); background: rgba(8,24,34,.72); box-shadow: 0 7px 16px rgba(3,14,21,.22); font: 900 18px/1 system-ui, sans-serif; cursor: pointer; touch-action: none; }
+      #touchControls button:active, #touchControls button.held { color: var(--navy); background: var(--mint); transform: translateY(1px); }
+      #touchUp { grid-column: 2; grid-row: 1; }
+      #touchLeft { grid-column: 1; grid-row: 2; }
+      #touchDown { grid-column: 2; grid-row: 2; }
+      #touchRight { grid-column: 3; grid-row: 2; }
+      #minimap { position: fixed; z-index: 5; right: 18px; bottom: 18px; width: 174px; height: 174px; border: 1px solid rgba(99,224,187,.42); border-radius: 50%; background: #12333b; box-shadow: 0 14px 30px rgba(3, 14, 21, .3), 0 0 0 5px rgba(8, 24, 34, .5), inset 0 0 0 1px rgba(255,255,255,.08); }
+      #feed { position: fixed; z-index: 5; top: 16px; right: 18px; max-width: min(280px, calc(100vw - 36px)); padding: 9px 13px; border: 1px solid rgba(255,200,87,.2); border-radius: 12px; color: #ffe7a6; background: var(--glass-soft); box-shadow: 0 10px 24px rgba(3, 14, 21, .18); backdrop-filter: blur(10px); font-size: 12px; line-height: 1.35; pointer-events: none; }
+      #feed:empty { opacity: 0; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease; }
+      #wreck { position: fixed; z-index: 12; inset: 0; display: none; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(14,42,48,.5), rgba(3,13,20,.82)); color: var(--ink); font-size: 20px; flex-direction: column; gap: 14px; backdrop-filter: blur(5px); }
+      #wreckText { padding: 18px 24px; border: 1px solid rgba(255,118,109,.35); border-radius: 16px; background: rgba(8,24,34,.76); box-shadow: 0 16px 40px rgba(0,0,0,.25); }
+      #wreck button, #joinRoom { border: 0; cursor: pointer; }
+      #wreck button { padding: 11px 19px; border-radius: 999px; color: #1b2930; background: linear-gradient(135deg, #ffd873, #ffb43c); box-shadow: 0 8px 18px rgba(255,180,60,.22); font: inherit; font-weight: 900; }
+      #speedo { position: fixed; z-index: 5; left: 18px; bottom: 18px; width: 142px; height: 142px; border: 1px solid rgba(255,200,87,.34); border-radius: 50%; background: radial-gradient(circle at 35% 25%, rgba(48,86,91,.82), rgba(7,25,34,.9) 70%); box-shadow: 0 14px 30px rgba(3, 14, 21, .3), inset 0 0 0 5px rgba(7,25,34,.42), inset 0 0 24px rgba(99,224,187,.08); pointer-events: none; }
+      #speedo svg { width: 100%; height: 100%; display: block; }
+      #lobby { position: fixed; z-index: 20; inset: 0; display: flex; align-items: center; justify-content: center; padding: 20px; background: radial-gradient(circle at 50% 35%, rgba(44,105,107,.3), rgba(4,17,26,.78) 68%); backdrop-filter: blur(8px); }
+      #lobby.hidden { display: none; }
+      #lobbyCard { position: relative; width: min(440px, 100%); padding: 30px; overflow: hidden; border: 1px solid rgba(173,226,218,.22); border-radius: 24px; background: linear-gradient(145deg, rgba(13,42,50,.96), rgba(7,25,34,.97)); box-shadow: 0 24px 70px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.1); }
+      #lobbyCard::after { content: ""; position: absolute; width: 190px; height: 190px; right: -74px; top: -88px; border-radius: 50%; background: rgba(255,200,87,.16); box-shadow: 0 0 0 18px rgba(255,200,87,.05), 0 0 0 38px rgba(255,200,87,.03); }
+      #lobbyKicker { color: var(--sun); font-size: 11px; font-weight: 900; letter-spacing: .2em; }
+      #lobby h1 { margin: 7px 0 8px; color: var(--ink); font-size: clamp(28px, 7vw, 38px); letter-spacing: -.04em; }
+      #lobby p { max-width: 34em; margin: 0 0 13px; color: var(--muted); line-height: 1.5; }
+      #lobbyMeta { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+      #lobbyMeta span { padding: 5px 8px; border: 1px solid rgba(99,224,187,.2); border-radius: 999px; color: #a7d9ca; background: rgba(99,224,187,.06); font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+      #roomForm { position: relative; z-index: 1; display: flex; gap: 8px; }
+      #quickPlay { position: relative; z-index: 1; width: 100%; margin-top: 10px; padding: 11px 14px; border: 1px solid rgba(255,200,87,.28); border-radius: 12px; color: #ffe5a1; background: rgba(255,200,87,.08); font: inherit; font-weight: 800; cursor: pointer; }
+      #quickPlay:hover { border-color: rgba(255,200,87,.55); background: rgba(255,200,87,.14); }
+      #quickPlay:disabled { cursor: wait; opacity: .55; }
+      #quickPlay span { margin-left: 5px; color: var(--muted); font-size: 11px; font-weight: 600; }
+      #roomName { min-width: 0; flex: 1; padding: 13px 14px; border: 1px solid rgba(173,226,218,.2); border-radius: 12px; outline: none; color: var(--ink); background: rgba(2,15,23,.55); font: inherit; }
+      #roomName::placeholder { color: #6f9296; }
+      #roomName:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(99,224,187,.12); }
+      #joinRoom { padding: 13px 17px; border-radius: 12px; color: #15252b; background: linear-gradient(135deg, #67e2bd, #38bfa1); font: inherit; font-weight: 900; box-shadow: 0 8px 18px rgba(56,191,161,.2); }
+      #joinRoom:hover { filter: brightness(1.08); transform: translateY(-1px); }
+      #joinRoom:disabled { cursor: wait; opacity: .62; transform: none; }
+      #lobbyStatus { position: relative; z-index: 1; min-height: 22px; margin-top: 15px; color: var(--muted); font-size: 13px; }
+      @media (max-width: 720px) {
+        #hud { top: 10px; left: 10px; min-width: 0; padding: 10px 11px; transform: scale(.88); transform-origin: top left; }
+        #hudStats { gap: 10px; }
+        .hudStat + .hudStat { padding-left: 10px; }
+        #feed { top: 10px; right: 10px; max-width: 180px; font-size: 11px; }
+        #minimap { right: 10px; bottom: 10px; width: 126px; height: 126px; }
+        #speedo { left: 10px; bottom: 10px; width: 108px; height: 108px; }
+         #touchControls { display: grid; left: 10px; bottom: 128px; transform: scale(.9); transform-origin: bottom left; }
+        #hint { bottom: 10px; max-width: calc(100vw - 150px); padding: 7px 10px; font-size: 10px; }
+        #lobbyCard { padding: 24px 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="vignette"></div>
+    <div id="hud" aria-label="Game status">
+      <div id="hudHeader"><span id="hudBrand">TUKTUK.IO</span><span id="roomBadge">LOBBY</span></div>
+      <div id="hudStats">
+        <div class="hudStat"><span>CASH</span><strong id="cashValue">Rs.0</strong></div>
+        <div class="hudStat"><span>TRIPS</span><strong id="tripValue">0</strong></div>
+        <div class="hudStat"><span>ABOARD</span><strong id="aboardValue">0</strong></div>
+        <div class="hudStat"><span>HEARTS</span><strong id="heartsValue">♥♥♥</strong></div>
+      </div>
+    </div>
+    <div id="feed"></div>
+    <canvas id="minimap" width="336" height="336"></canvas>
+    <div id="speedo">
+      <svg viewBox="0 0 132 132" aria-label="speedometer">
+        <circle cx="66" cy="66" r="58" fill="none" stroke="#3a3a44" stroke-width="9" stroke-linecap="round" stroke-dasharray="273 91" transform="rotate(135 66 66)" />
+        <path id="speedArc" d="" fill="none" stroke="#2ecc71" stroke-width="9" stroke-linecap="round" />
+        <g font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">
+          <text x="66" y="30">45</text>
+          <text x="30" y="48">30</text>
+          <text x="22" y="86">15</text>
+          <text x="48" y="112">0</text>
+        </g>
+        <g id="needle" transform="rotate(-120 66 66)">
+          <line x1="66" y1="66" x2="66" y2="22" stroke="#f2b134" stroke-width="5" stroke-linecap="round" />
+          <line x1="66" y1="66" x2="66" y2="78" stroke="#f2b134" stroke-width="7" stroke-linecap="round" opacity=".45" />
+        </g>
+        <circle cx="66" cy="66" r="10" fill="#f2b134" stroke="#222831" stroke-width="3" />
+        <text id="gear" x="66" y="70" font-family="system-ui,sans-serif" font-size="11" font-weight="800" fill="#222831" text-anchor="middle">N</text>
+        <text id="speedNum" x="66" y="98" font-family="system-ui,sans-serif" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">0</text>
+        <text x="66" y="110" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#ffd97a" text-anchor="middle">km/h</text>
+      </svg>
+    </div>
+    <div id="touchControls" aria-label="Touch driving controls">
+      <button id="touchUp" type="button" data-drive-key="w" aria-label="Accelerate">▲</button>
+      <button id="touchLeft" type="button" data-drive-key="a" aria-label="Steer left">◀</button>
+      <button id="touchDown" type="button" data-drive-key="s" aria-label="Brake or reverse">▼</button>
+      <button id="touchRight" type="button" data-drive-key="d" aria-label="Steer right">▶</button>
+    </div>
+    <div id="hint">WASD drive · S reverse · SPACE cut-off · stop GREEN pick · ORANGE drop</div>
+    <div id="wreck"><div id="wreckText">Wrecked!</div><button id="again">Play Again (keep fares)</button></div>
+    <div id="lobby">
+      <div id="lobbyCard">
+        <div id="lobbyKicker">TUKTUK.IO</div>
+        <h1>Find a room</h1>
+        <p>Enter a room name. You will join the open room with that name, or wait if it is full.</p>
+        <div id="lobbyMeta"><span>12–20 PLAYERS</span><span>REAL-TIME</span><span>NO INSTALL</span></div>
+        <form id="roomForm">
+          <input id="roomName" maxlength="24" autocomplete="off" placeholder="e.g. colombo" aria-label="Room name" />
+          <button id="joinRoom" type="submit">Join</button>
+        </form>
+        <button id="quickPlay" type="button">Quick Play <span>Join random players</span></button>
+        <div id="lobbyStatus" role="status">Choose a room name or use Quick Play.</div>
+      </div>
+    </div>
+    <script type="module" src="/client/src/main.ts"></script>
+  </body>
+</html>

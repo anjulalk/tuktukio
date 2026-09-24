@@ -1,0 +1,36 @@
+{
+  "name": "tuktuk.io",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/room.test.ts",
+    "server:dev": "tsx watch server/src/index.ts",
+    "server:start": "tsx server/src/index.ts",
+    "worker:typecheck": "tsc -p worker/tsconfig.json --noEmit",
+    "worker:check": "npm run build && npm run worker:typecheck && wrangler deploy --dry-run",
+    "worker:dev": "npm run build && wrangler dev",
+    "worker:deploy": "npm run build && npm run worker:typecheck && wrangler deploy"
+  },
+  "dependencies": {
+    "three": "^0.170.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260924.1",
+    "@types/node": "^22.9.0",
+    "@types/three": "^0.170.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.3",
+    "wrangler": "^4.137.0"
+  }
+}

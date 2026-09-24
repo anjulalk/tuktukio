@@ -1,0 +1,10 @@
+{
+  "name": "TukTuk.io",
+  "short_name": "TukTuk.io",
+  "description": "Pick up passengers, drop them off, and outplay the room.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#071923",
+  "theme_color": "#071923",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
