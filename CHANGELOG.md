@@ -14,6 +14,11 @@ All notable changes to TukTuk.io are documented here. The project uses semantic 
 - GitHub Actions CI and Cloudflare deployment workflow.
 - AI agent context files, subsystem guides, and task playbooks.
 
+### Changed
+
+- CI and deployment now use current GitHub Action major versions.
+- Production deployment is gated on a successful `main` CI run.
+
 ### Known gaps
 
 - Persistent accounts and cross-session progression.
