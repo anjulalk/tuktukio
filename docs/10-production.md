@@ -17,7 +17,7 @@ The deploy creates/updates SQLite-backed Durable Objects:
 - `TukTukRoom` — one authoritative WebSocket room per room id
 - `TukTukLobby` — eight sharded allocators (`lobby-n0`…`lobby-n7` / `lobby-q0`…`lobby-q7`) for named-room allocation, Quick Play, reservations, and wait queues
 
-The production custom domain is `tuktukio.anjula.dev`. The Worker serves the Vite build and the API/WebSocket routes from the same origin. If the client is hosted separately, set `ALLOWED_ORIGINS` in `wrangler.jsonc` to a comma-separated list of exact origins.
+The production custom domain is `tuktukio.anjula.dev`. The Worker serves the Vite build and the API/WebSocket routes from the same origin; GitHub is the source/CI host, not the game runtime. If the client is hosted separately, set `ALLOWED_ORIGINS` in `wrangler.jsonc` to a comma-separated list of exact origins.
 
 ## Health checks
 

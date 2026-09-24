@@ -11,6 +11,7 @@ This directory is the durable product and engineering context for the game.
 5. [`10-production.md`](10-production.md) — deployment and operations runbook.
 6. [`11-ai-agent-context.md`](11-ai-agent-context.md) — AI agent context and task routing.
 7. [`../skills/README.md`](../skills/README.md) — task-specific playbooks.
+8. [`adr/README.md`](adr/README.md) — durable architecture decisions.
 
 ## Documentation rules
 

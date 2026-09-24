@@ -9,6 +9,7 @@ This file is the short orientation guide for coding agents and automation. Read 
 3. This file for task routing.
 4. Product docs for goals and roadmap.
 5. `skills/` for execution playbooks.
+6. `docs/adr/` for durable architecture decisions.
 
 If a document conflicts with code, do not silently assume the document is correct. Verify the code, update the document, and call out the discrepancy.
 

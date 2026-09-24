@@ -22,7 +22,8 @@ Read this file before changing the repository. It is the source of truth for AI-
    - `docs/AGENTS.md`
 3. [docs/README.md](docs/README.md) for the documentation map.
 4. The relevant `skills/*/SKILL.md` playbook.
-5. Existing tests and neighboring code before editing.
+5. Relevant records in `docs/adr/` for architectural decisions.
+6. Existing tests and neighboring code before editing.
 
 ## Non-negotiable rules
 

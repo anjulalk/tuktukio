@@ -50,7 +50,7 @@ Cloudflare Worker
               └── room heartbeat/cleanup
 ```
 
-The Worker serves the Vite build and the API/WebSocket routes from the same origin. GitHub stores the source and runs CI/CD; it does not host the Durable Objects or WebSocket backend.
+The Worker serves the Vite build and the API/WebSocket routes from the same origin. GitHub stores the source and runs CI/CD; GitHub Pages is not used for the game runtime and cannot host Durable Objects or WebSockets.
 
 ## Quick start
 
