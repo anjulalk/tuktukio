@@ -1,5 +1,8 @@
 # TukTuk.io — Production Runbook
 
+> [!WARNING]
+> **Release status: Alpha / not production-ready.** This runbook documents the current preview deployment, not a guarantee of competitive or high-scale readiness. See [`../STATUS.md`](../STATUS.md).
+
 ## Deploy
 
 ```bash

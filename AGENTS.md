@@ -10,6 +10,8 @@ Read this file before changing the repository. It is the source of truth for AI-
 - Runtime: TypeScript, Vite, Three.js, Cloudflare Workers, Durable Objects
 - Local fallback: Node.js + `ws`
 - License: MIT
+- Current release: `0.1.0-alpha.1`
+- Release status: Alpha preview; not production-ready
 
 ## Read order
 

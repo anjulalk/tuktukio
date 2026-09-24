@@ -37,9 +37,11 @@ If a document conflicts with code, do not silently assume the document is correc
 
 ## Current boundaries
 
+Release status is `0.1.0-alpha.1`: **alpha, not production-ready**.
+
 Implemented: Worker/DO hosting, sharded lobby, named rooms, Quick Play, ticket-gated sockets, server-authoritative fare/combat/respawn, reconnect grace, rate limits, security headers, CI/deploy workflows.
 
-Not yet complete: persistent accounts, Quick Play bots/minimum-human policy, full server-side vehicle simulation, compact netcode, target-CCU load results, and per-room world seed handoff.
+Not yet complete: persistent accounts, Quick Play bots/minimum-human policy, full server-side vehicle simulation, compact netcode, target-CCU load results, and per-room world seed handoff. Known bugs are tracked in [`../STATUS.md`](../STATUS.md).
 
 ## Change protocol
 

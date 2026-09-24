@@ -9,10 +9,14 @@
 [![stars](https://img.shields.io/github/stars/anjulalk/tuktukio?style=flat-square&labelColor=44403a)](https://github.com/anjulalk/tuktukio/stargazers)
 [![forks](https://img.shields.io/github/forks/anjulalk/tuktukio?style=flat-square&labelColor=44403a)](https://github.com/anjulalk/tuktukio/network/members)
 [![issues](https://img.shields.io/github/issues/anjulalk/tuktukio?style=flat-square&labelColor=44403a)](https://github.com/anjulalk/tuktukio/issues)
+[![status](https://img.shields.io/badge/status-alpha%20%2F%20not%20ready-c1603c?labelColor=44403a&style=flat-square)](STATUS.md)
 
 **TukTuk.io** is a lightweight, browser-based multiplayer tuk-tuk game. Pick up passengers, race through the city, cut off rivals, and deliver fares in shared rooms.
 
-**Live game:** <https://tuktukio.anjula.dev>
+> [!WARNING]
+> **This is an alpha preview, not a production-ready release.** Known bugs and unfinished multiplayer systems remain. See [STATUS.md](STATUS.md) before using or recommending it.
+
+**Live preview:** <https://tuktukio.anjula.dev>
 
 Built by [Anjula Karunarathne](https://anjula.dev).
 

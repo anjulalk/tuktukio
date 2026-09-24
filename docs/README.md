@@ -2,6 +2,8 @@
 
 This directory is the durable product and engineering context for the game.
 
+> **Release status:** `0.1.0-alpha.1` — alpha preview, not production-ready. See [`../STATUS.md`](../STATUS.md) for known bugs and beta gates.
+
 ## Recommended reading order
 
 1. [`01-vision-scope.md`](01-vision-scope.md) — product scope.

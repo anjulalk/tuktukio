@@ -2,6 +2,17 @@
 
 All notable changes to TukTuk.io are documented here. The project uses semantic versioning once the public API and protocol stabilize.
 
+## [0.1.0-alpha.1] — 2026-09-24
+
+> **Alpha / not production-ready.** This preview contains known bugs and unfinished launch work. See [`STATUS.md`](STATUS.md).
+
+### Known issues
+
+- Quick Play may admit a solo player because bots/minimum-human rules are not implemented.
+- The client world uses a fixed seed rather than rebuilding from the room seed.
+- Movement is sampled-position validation, not a complete server-side physics simulation.
+- Persistent accounts, target-CCU load results, compact netcode, and some reconnect/mobile cases are unfinished.
+
 ## [Unreleased]
 
 ### Added
