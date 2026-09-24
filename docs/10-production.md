@@ -8,7 +8,7 @@ npm run check
 npx wrangler deploy
 ```
 
-For local development, use `npx wrangler login` first. The repository's `main` branch deploys through `.github/workflows/deploy.yml` after CI succeeds.
+For local development, use `npx wrangler login` first. The repository's `main` branch runs CI first; a successful CI completion triggers `.github/workflows/deploy.yml`.
 
 GitHub Actions requires the repository secrets `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`. Set them with GitHub's secret UI or `gh secret set`; never place token values in source, logs, issues, or chat.
 
